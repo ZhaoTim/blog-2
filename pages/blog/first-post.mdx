@@ -5,6 +5,17 @@ date: 2022-07-23
 tag: [test-tag]
 ---
 
-# Welcome to the dahliaOS blog!
-
-Today marks the day we made our first post on the dahliaOS blog! Stay tuned, more is yet to come! :)
+Reference Type
+`obj.method()`中，`.`得到的是**value of Reference Type**
+`base`
+`property`
+`strict`
+``` js
+		  const fn = obj.method;
+		  fn();
+```
+`fn`变量丢失了**value of Reference Type**，得到了单纯的函数
+`(obj.method)()`没有任何**`求值过程`**，所以`this`依旧指向`obj`
+> Tree-Shaking这个名词，很多前端coder已经耳熟能详了，它代表的大意就是删除没用到的代码。这样的功能对于构建大型应用时是非常好的，因为日常开发经常需要引用各种库。但大多时候仅仅使用了这些库的某些部分，并非需要全部，此时Tree-Shaking如果能帮助我们删除掉没有使用的代码，将会大大缩减打包后的代码量。  
+`babel-loader`可以将转译后的结果缓存下来，然后下次修改代码的时候，触发重编译，`babel-loader`可以直接读取上次的缓存结果。 babel学习
+以上效果需要设置字段：cacheDirectory
