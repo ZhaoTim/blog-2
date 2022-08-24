@@ -2,20 +2,38 @@
 title: We have a blog!
 description: Welcome to our official blog!
 date: 2022-07-23
-tag: [test-tag]
+tag: [笔记]
 ---
 
-Reference Type
-`obj.method()`中，`.`得到的是**value of Reference Type**
-`base`
-`property`
-`strict`
-``` js
-		  const fn = obj.method;
-		  fn();
+昨天面字节，面试官放水出了这么简单的题，我都没写出来，丢人丢大发了。
+
+```javascript
+function flatDeep(arr, depth = 1) {
+  if (depth <= 0) {
+    return arr.slice();
+  }
+  
+  return arr.reduce((acc, cur) => (
+    acc.concat(Array.isArray(cur) ? flatDeep(cur, depth - 1) : cur)
+  ), []);
+}
 ```
-`fn`变量丢失了**value of Reference Type**，得到了单纯的函数
-`(obj.method)()`没有任何**`求值过程`**，所以`this`依旧指向`obj`
-> Tree-Shaking这个名词，很多前端coder已经耳熟能详了，它代表的大意就是删除没用到的代码。这样的功能对于构建大型应用时是非常好的，因为日常开发经常需要引用各种库。但大多时候仅仅使用了这些库的某些部分，并非需要全部，此时Tree-Shaking如果能帮助我们删除掉没有使用的代码，将会大大缩减打包后的代码量。  
-`babel-loader`可以将转译后的结果缓存下来，然后下次修改代码的时候，触发重编译，`babel-loader`可以直接读取上次的缓存结果。 babel学习
-以上效果需要设置字段：cacheDirectory
+
+babel在做ES6 -> ES5的`语法转换`时，会有很多内联的*辅助函数*，比如`Class`语法，会生成一个`_createClass`函数，如果我们有100个JS文件里都使用到了`Class`语法，那么打包后的JS文件里会有100个`_createClass`函数，这无疑是一种打包体积的浪费，需要优化。
+
+babel提供了一个npm包：`@babel/runtime`，里面储存着这些*辅助函数*，我们从这个包里引用这些函数们，那么经过类似于`webpack`打包后，打包后的JS文件里的*辅助函数*只会有一个，而不是上面说的100个重复的`_createClass`。
+
+具体的实现过程是通过一个叫做`@babel/plugin-transform-runtime`的插件，它会帮助我们来引入`@babel/runtime`包里的函数，只要在`plugins`字段配置这个插件，默认就会开启这个功能。
+
+最佳babel的配置，适配于babel7+
+
+```js
+// babel.config.js
+module.exports = {
+  presets: ['@babel/preset-env', {
+    corejs: 3,
+    useBuiltIns: 'usage',
+  }],
+  plugins: ['@babel/plugin-transform-runtime'],
+}
+```
