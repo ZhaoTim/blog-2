@@ -1,0 +1,29 @@
+---
+type: page
+title: ✋🏻尅纟
+date: "2000-07-08"
+---
+
+export const screenshoots = [
+  ["/22-08-25-12-08-30.mp4", "雪球争霸节"],
+  ["/22-08-25-12-05-39.mp4", "直播广场"],
+  ["/22-08-25-12-07-03.mp4", "每日基金热点"],
+  ["22-08-25-12-32-30.mp4", "帮助中心"],
+];
+
+<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1em" }}>
+  {screenshoots.map(([s, name]) => (
+    <figure key={s} style={{ margin: 0 }}>
+      <a href={s} style={{ display: "block" }} target="_blank">
+        <video controls style={{ margin: 0, borderRadius: "1em" }}>
+          <source src={s} type="video/mp4"></source>
+        </video>
+      </a>
+      <figcaption
+        style={{ margin: 0, textAlign: "center", fontStyle: "italic" }}
+      >
+        <p style={{ margin: "2em" }}>{name}</p>
+      </figcaption>
+    </figure>
+  ))}
+</div>

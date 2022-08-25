@@ -1,43 +1,38 @@
 ---
-title: We have a blog!
-description: Welcome to our official blog!
+title: 最近在复习(有的没的)
+description: ""
 date: 2022-07-23
 tag: [笔记]
 ---
 
-昨天面字节，面试官放水出了这么简单的题，我都没写出来，丢人丢大发了。
+## DOM 事件
 
-```javascript
-function flatDeep(arr, depth = 1) {
-  if (depth <= 0) {
-    return arr.slice();
-  }
-  
-  return arr.reduce((acc, cur) => (
-    acc.concat(Array.isArray(cur) ? flatDeep(cur, depth - 1) : cur)
-  ), []);
-}
-```
-
-babel在做ES6 -> ES5的`语法转换`时，会有很多内联的*辅助函数*，比如`Class`语法，会生成一个`_createClass`函数，如果我们有100个JS文件里都使用到了`Class`语法，那么打包后的JS文件里会有100个`_createClass`函数，这无疑是一种打包体积的浪费，需要优化。
-
-babel提供了一个npm包：`@babel/runtime`，里面储存着这些*辅助函数*，我们从这个包里引用这些函数们，那么经过类似于`webpack`打包后，打包后的JS文件里的*辅助函数*只会有一个，而不是上面说的100个重复的`_createClass`。
-
-具体的实现过程是通过一个叫做`@babel/plugin-transform-runtime`的插件，它会帮助我们来引入`@babel/runtime`包里的函数，只要在`plugins`字段配置这个插件，默认就会开启这个功能。
-
-最佳babel的配置，适配于babel7+
+捕获阶段 -> 目标阶段 -> 冒泡阶段
 
 ```js
-// babel.config.js
-module.exports = {
-  presets: ['@babel/preset-env', {
-    corejs: 3,
-    useBuiltIns: 'usage',
-  }],
-  plugins: ['@babel/plugin-transform-runtime'],
-}
+// 在捕获阶段触发
+const handleClick = () => {};
+ele.addEventListener("click", handleClick, true);
 ```
 
+- `event.target` —— 引发事件的层级最深的元素。
+- `event.currentTarget`（=`this`）—— 处理事件的当前元素（具有处理程序的元素）
+- `event.eventPhase` —— 当前阶段（capturing=1，target=2，bubbling=3）。
 
-1. [深入研究webpack之Tree Shaking相关属性sideEffects用处](https://www.programminghunter.com/article/15801020724/)
-2. [你的Tree-Shaking并没什么卵用](https://segmentfault.com/a/1190000012794598)
+![无标题-2022-07-17-1753](https://user-images.githubusercontent.com/30540533/186438281-a22e7122-6adb-4b2d-a25b-f070e3a88c9e.png)
+
+```js
+form.onclick = function (event) {
+  event.target.style.backgroundColor = "yellow";
+
+  // chrome needs some time to paint yellow
+  setTimeout(() => {
+    alert("target = " + event.target.tagName + ", this=" + this.tagName);
+    event.target.style.backgroundColor = "";
+  }, 0);
+};
+```
+
+<script type="module" src="https://unpkg.com/xy-ui"></script>
+
+<xy-img src="https://images.pexels.com/photos/841228/pexels-photo-841228.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="image-keyboard"></xy-img>
