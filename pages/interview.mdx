@@ -28,13 +28,7 @@ console.log(greeting === "Hello, Susan!");
 2. 调用了两次`hello`方法，是相互**独立的**
 
 ```js
-function strBuilder(str) {
-  const fn = str2 => {
-    if (str2 === undefined) {
-      return str;
-    }
-    return strBuilder(`${str}${str2}`);
-  };
-  return fn;
+function strBuilder(str1) {
+  return str2 => typeof str2 === 'string' ?  strBuilder(`${str1}${str2}` : str1
 }
 ```
